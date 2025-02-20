@@ -118,5 +118,3 @@ If you like this project, please ⭐ **star the repository**! 🌟
 **Happy coding!** 🚀🎬  
 
 ---
-
-This version is more readable with proper sectioning and formatting, making it easier to follow and more visually engaging!
