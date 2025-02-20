@@ -2,7 +2,9 @@
 
 ![icon](https://github.com/user-attachments/assets/5a0d076a-465e-49d0-8894-0ebe59cded1f)
 
-Welcome to **SBS Optics**! 🕶️ Your one-stop shop for high-quality optical products. This is a fully functional **e-commerce website** built using **React** for the frontend and **Laravel** for the backend, featuring authentication, an admin panel, and a smooth shopping experience. 🚀  
+✨Welcome to **SBS Optics**! 🕶️ 
+✨Your one-stop shop for high-quality optical products. 
+✨This is a fully functional **e-commerce website** built using **React** for the frontend and **Laravel** for the backend, featuring authentication, an admin panel, and a smooth shopping experience. 🚀  
 
 ---
 
@@ -31,7 +33,7 @@ Welcome to **SBS Optics**! 🕶️ Your one-stop shop for high-quality optical p
 
 ---
 
-## **⚙️ Tech Stack**  
+## **🛠️ Tech Stack**  
 🔹 **Frontend:** React   
 🔹 **Backend:** Laravel   
 🔹 **Database:** MySQL  
@@ -40,25 +42,29 @@ Welcome to **SBS Optics**! 🕶️ Your one-stop shop for high-quality optical p
 
 ---
 
-## **📌 Installation & Setup**  
+## **🔧 Installation & Setup**  
 
 ### **Backend (Laravel Setup) 🖥️**  
 1️⃣ Clone the repository and navigate to the backend folder:  
    ```bash
    git clone <repository-url>
    cd ecommerce_project_backend
-   ```  
+   ```
+
 2️⃣ Install dependencies:  
    ```bash
    composer install
-   ```  
+   ```
+
 3️⃣ Configure `.env` file:  
    - Set up **database connection**  
-   - Configure **eSewa API credentials**  
+   - Configure **eSewa API credentials**
+     
 4️⃣ Run migrations:  
    ```bash
    php artisan migrate
-   ```  
+   ```
+
 5️⃣ Start the backend server:  
    ```bash
    php artisan serve
@@ -70,11 +76,13 @@ Welcome to **SBS Optics**! 🕶️ Your one-stop shop for high-quality optical p
 1️⃣ Navigate to the frontend folder:  
    ```bash
    cd ecommerce_project_frontend
-   ```  
+   ```
+
 2️⃣ Install dependencies:  
    ```bash
    npm install
-   ```  
+   ```
+
 3️⃣ Start the React development server:  
    ```bash
    npm run dev
