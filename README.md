@@ -1,7 +1,3 @@
-To enhance the UI of the README file, we can add some formatting to make it more visually appealing and user-friendly. I'll add headings, bold text, and emphasize important sections. Here's an improved version:
-
----
-
 # 📢 **SBS Optics - E-Commerce Website**
 
 ![icon](https://github.com/user-attachments/assets/5a0d076a-465e-49d0-8894-0ebe59cded1f)
