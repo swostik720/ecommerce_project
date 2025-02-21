@@ -94,7 +94,9 @@ const Navbar = () => {
         if (
             location.pathname.startsWith("/shop") ||
             location.pathname.startsWith("/product/details") ||
-            location.pathname.startsWith("/cart")
+            location.pathname.startsWith("/cart") ||
+            location.pathname.startsWith("/wishlist") ||
+            location.pathname.startsWith("/profile")
         ) {
             return (
                 <button onClick={() => navigate("/shop")} className="text-white hover:underline">
@@ -109,6 +111,27 @@ const Navbar = () => {
     const renderRightContent = () => {
         return (
             <div className="flex items-center space-x-4">
+                {/* Wishlist Icon */}
+                <button
+                    onClick={() => navigate("/wishlist")}
+                    className="relative text-white hover:text-gray-200"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"
+                        />
+                    </svg>
+                </button>
+
                 {/* Cart Icon */}
                 <button
                     onClick={() => navigate("/cart")}
@@ -191,7 +214,7 @@ const Navbar = () => {
             {/* Left Side */}
             <h1 className="flex items-center gap-3 text-white font-bold">
                 <button onClick={() => navigate("/")}>
-                <img src="/icon.png" alt="SBS Optics" className="w-10 h-10 drop-shadow-[0_0_4px_white]" />                
+                    <img src="/icon.png" alt="SBS Optics" className="w-10 h-10 drop-shadow-[0_0_4px_white]" />
                 </button>
                 <button onClick={() => navigate("/")}>SBS Optics</button>
             </h1>

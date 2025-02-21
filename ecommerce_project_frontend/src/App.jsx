@@ -21,7 +21,7 @@ import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Receipt from "./pages/Receipt";
-// import Navbar from "./components/Navbar";
+import Wishlist from "./pages/WishList";
 
 const App = () => {
   return (
@@ -47,6 +47,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute>
+              <Wishlist />
             </ProtectedRoute>
           }
         />

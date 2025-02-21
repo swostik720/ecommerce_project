@@ -9,6 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\EsewaController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
 
 // Public Routes (No Authentication Required)
 Route::post('/register', [AuthController::class, 'register']);
@@ -60,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
     Route::get('/cart', [CartController::class, 'getCart']);
     Route::post('/cart/update', [CartController::class, 'updateCart']);
+
+    Route::get('/wishlist', [WishlistController::class, 'index']);
+    Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
+    Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'removeFromWishlist']);
 
     Route::post('/esewa/checkout', [EsewaController::class, 'checkout']);
     Route::match(['get', 'post'], '/esewa/verification', [EsewaController::class, 'verification'])->name('esewa.verification');

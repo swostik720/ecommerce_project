@@ -155,13 +155,6 @@ const Cart = () => {
                 </div>
 
                 <div className="w-full md:w-2/5 bg-white p-4 shadow-md rounded-md">
-                    <button
-                        onClick={handleCheckout}
-                        className="bg-blue-500 text-white w-full py-2 mt-4 rounded-md hover:bg-blue-600 shadow-md"
-                    >
-                        Go to Checkout
-                    </button>
-                    <img src="/esewa_og.webp" alt="Esewa" />
                     <h1 className="text-lg font-bold mb-3">Order Summary</h1>
                     <div className="border-t my-2"></div>
                     <h3 className="text-lg font-semibold mb-3">The total amount</h3>
@@ -179,11 +172,20 @@ const Cart = () => {
                         <p>The total amount (including VAT)</p>
                         <p>Rs.{totalAmount}</p>
                     </div>
+                    <div className="border-t my-2"></div>
+
+                    <img src="/esewa_og.webp" alt="Esewa" />
+                    <button
+                        onClick={handleCheckout}
+                        className="bg-blue-500 text-white w-full py-2  rounded-md hover:bg-blue-600 shadow-md"
+                    >
+                        Place Order
+                    </button>
                 </div>
             </div>
             <Footer />
         </div>
-    );
+    );  
 };
 
 export default Cart;
