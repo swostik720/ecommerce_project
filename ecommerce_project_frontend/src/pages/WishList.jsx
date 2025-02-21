@@ -106,7 +106,7 @@ const Wishlist = () => {
                                         className="bg-green-500 text-white px-4 py-2 rounded-lg"
                                         onClick={() => handleAddToCart(item)}
                                     >
-                                        Add to Cart
+                                        Add to Cart 🛒
                                     </button>
                                 </div>
                             </div>
