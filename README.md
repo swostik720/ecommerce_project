@@ -1,3 +1,4 @@
+
 # 📢 **SBS Optics - E-Commerce Website**
 
 ![icon](https://github.com/user-attachments/assets/5a0d076a-465e-49d0-8894-0ebe59cded1f)
@@ -18,6 +19,7 @@
 - ✅ Users can **filter products** by **category** & **brand** 🔎  
 - ✅ View **detailed product pages** with all specifications 📝  
 - ✅ **Add products to the cart** for a seamless shopping experience 🛒  
+- ✅ **Add products to the wishlist** for future reference ❤️  
 
 ### 🛒 **Cart & Checkout**  
 - ✅ **Increase/Decrease** product quantity in the cart ➕➖  
@@ -100,7 +102,7 @@ You can use the following test credentials for **eSewa payment integration**:
 ---
 
 ## 🚀 **Usage**  
-🛍️ **Browse Products** → 🔎 **Filter & View Details** → 🛒 **Add to Cart** → 💳 **Checkout with eSewa** → 📜 **View Receipt**  
+🛍️ **Browse Products** → 🔎 **Filter & View Details** → 🛒 **Add to Cart** → ❤️ **Add to Wishlist** → 💳 **Checkout with eSewa** → 📜 **View Receipt**  
 
 ---
 
