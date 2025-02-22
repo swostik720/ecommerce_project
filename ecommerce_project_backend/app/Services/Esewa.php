@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\PaymentGatewayInterface;
+use App\Models\Order;
 use Exception;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Esewa implements PaymentGatewayInterface
 {
@@ -105,4 +107,5 @@ class Esewa implements PaymentGatewayInterface
             throw new Exception('total_amount is required');
         }
     }
+
 }

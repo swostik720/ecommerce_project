@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import config from "../config";
 
 const Receipt = () => {
     const [paymentDetails, setPaymentDetails] = useState(null);
@@ -44,6 +45,8 @@ const Receipt = () => {
                 parsedData.total_amount = sanitizedTotalAmount;
 
                 setPaymentDetails(parsedData);
+
+                createOrder(parsedData);
             } catch (error) {
                 console.error("Error parsing payment details:", error);
                 alert("Error loading receipt.");
@@ -74,6 +77,34 @@ const Receipt = () => {
 
     const handlePrint = () => {
         window.print();
+    };
+
+    const createOrder = async (data) => {
+        const loginToken = localStorage.getItem("loginToken");
+        if (!loginToken) {
+            console.error("User is not authenticated");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${config.API_BASE}/orders`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${loginToken}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to create order");
+            }
+
+            const result = await response.json();
+            console.log("Order created successfully:", result);
+        } catch (error) {
+            console.error("Error creating order:", error);
+        }
     };
     
     return (
@@ -139,6 +170,12 @@ const Receipt = () => {
                         className="print:hidden bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                     >
                         Print Receipt
+                    </button>
+                    <button
+                        onClick={() => navigate("/order")}
+                        className="print:hidden bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                    >
+                        Track your Order
                     </button>
                 </div>
 

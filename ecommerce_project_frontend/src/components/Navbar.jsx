@@ -96,7 +96,8 @@ const Navbar = () => {
             location.pathname.startsWith("/product/details") ||
             location.pathname.startsWith("/cart") ||
             location.pathname.startsWith("/wishlist") ||
-            location.pathname.startsWith("/profile")
+            location.pathname.startsWith("/profile") ||
+            location.pathname.startsWith("/order") 
         ) {
             return (
                 <button onClick={() => navigate("/shop")} className="text-white hover:underline">

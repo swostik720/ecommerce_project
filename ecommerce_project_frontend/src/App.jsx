@@ -22,6 +22,7 @@ import ProductDetails from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Receipt from "./pages/Receipt";
 import Wishlist from "./pages/WishList";
+import Order from "./pages/Order";
 
 const App = () => {
   return (
@@ -63,6 +64,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Receipt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute>
+              <Order />
             </ProtectedRoute>
           }
         />

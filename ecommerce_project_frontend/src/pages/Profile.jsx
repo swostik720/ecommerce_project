@@ -60,6 +60,12 @@ const Profile = () => {
           <p className="text-gray-600 text-center">{user.email}</p>
           <button
             className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg shadow-md hover:bg-blue-600 block mx-auto"
+            onClick={() => navigate("/order")}
+          >
+            My Orders
+          </button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg shadow-md hover:bg-blue-600 block mx-auto"
             onClick={() => navigate("/wishlist")}
           >
             My WishList ❤️

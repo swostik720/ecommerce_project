@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Services\Esewa;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class EsewaController extends Controller
 {
@@ -98,9 +100,8 @@ class EsewaController extends Controller
 
             // Check if the payment is successful
             if ($esewa->isSuccess($inquiry)) {
-                // Redirect to the frontend receipt page with payment details as query parameters
                 $redirectUrl = env('FRONTEND_URL') . '/receipt?data=' . urlencode($data);
-                return redirect($redirectUrl); // Perform a server-side redirect
+                return redirect($redirectUrl);
             } else {
                 // Redirect to an error page or show a failure message
                 return redirect(env('FRONTEND_URL') . '/cart?payment_status=failed');
