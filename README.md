@@ -5,7 +5,7 @@
 
 ✨ **Welcome to SBS Optics!** 🕶️  
 ✨ Your one-stop shop for high-quality optical products.  
-✨ This is a fully functional **e-commerce website** built using **React** for the frontend and **Laravel** for the backend, featuring authentication, an admin panel, and a smooth shopping experience. 🚀
+✨ This is a fully functional **e-commerce website** built using **React** for the frontend and **Laravel** for the backend, featuring authentication, an admin panel, order tracking, and a smooth shopping experience. 🚀  
 
 ---
 
@@ -26,9 +26,14 @@
 - ✅ **Remove items** from the cart 🗑️  
 - ✅ Secure checkout process with **eSewa payment integration** 💳  
 
+### 📦 **Order Tracking**  
+- ✅ **Users can track their orders** after completing a payment 📍   
+- ✅ **Admin can view and manage all orders** from the dashboard 📊  
+
 ### 📊 **Admin Panel**  
 - ✅ Admins can manage **categories, brands, and products** 🎛️  
 - ✅ Full **CRUD** operations for product management ✏️  
+- ✅ Admin can manage **orders** 📦  
 
 ### 📜 **Receipt Page**  
 - ✅ Displays **order summary & payment details** after purchase 💰  
@@ -61,7 +66,8 @@
 
 3️⃣ **Configure `.env` file**:  
    - Set up **database connection**  
-   - Configure **eSewa API credentials**
+   - Configure **eSewa API credentials**  
+   - Set up **mail configuration** for order notifications  
 
 4️⃣ **Run migrations**:  
    ```bash
@@ -102,7 +108,7 @@ You can use the following test credentials for **eSewa payment integration**:
 ---
 
 ## 🚀 **Usage**  
-🛍️ **Browse Products** → 🔎 **Filter & View Details** → 🛒 **Add to Cart** → ❤️ **Add to Wishlist** → 💳 **Checkout with eSewa** → 📜 **View Receipt**  
+🛍️ **Browse Products** → 🔎 **Filter & View Details** → 🛒 **Add to Cart** → ❤️ **Add to Wishlist** → 💳 **Checkout with eSewa** → 📜 **View Receipt** → 📦 **Track Order**  
 
 ---
 
