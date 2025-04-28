@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { FaMapMarkerAlt, FaCalendarAlt, FaStar, FaHeart, FaBox, FaCog } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -33,7 +35,7 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-100 to-white">
         <p className="text-gray-600 text-lg">Loading profile...</p>
       </div>
     );
@@ -42,41 +44,86 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-          {/* Back Button */}
-          <button
-            onClick={() => navigate(-1)}
-            className="bg-gray-500 text-white px-4 py-2 rounded-lg mb-4"
-          >
-            ← Back
-          </button>
-          <img
-            src="/user_avatar.png"
-            alt="User Avatar"
-            className="w-24 h-24 mx-auto rounded-full border-4 border-gray-300"
-          />
-          <h2 className="text-xl font-bold mt-4 text-center">{user.name}</h2>
-          <p className="text-gray-600 text-center">{user.email}</p>
-          <button
-            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg shadow-md hover:bg-blue-600 block mx-auto"
-            onClick={() => navigate("/order")}
-          >
-            My Orders
-          </button>
-          <button
-            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg shadow-md hover:bg-blue-600 block mx-auto"
-            onClick={() => navigate("/wishlist")}
-          >
-            My WishList ❤️
-          </button>
-          <button
-            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg shadow-md hover:bg-blue-600 block mx-auto"
-            onClick={() => navigate("/resetPassword")}
-          >
-            Change Password
-          </button>
+      <div className="p-6 pt-24">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 to-white py-10 px-4 flex justify-center items-start">
+          <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-lg w-full space-y-6 transition-all duration-500 hover:shadow-blue-200">
+            {/* Back Button */}
+            <div className="flex justify-between items-center">
+              <button
+                onClick={() => navigate(-1)}
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg mb-4"
+              >
+                ← Back
+              </button>
+              <FaCog className="text-gray-500 hover:text-gray-700 cursor-pointer" />
+            </div>
 
+            {/* Avatar and User Info */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative">
+                <img
+                  src="/user_avatar.png"
+                  alt="User Avatar"
+                  className="w-28 h-28 rounded-full border-4 border-blue-100 shadow-lg"
+                />
+                <span className="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white animate-pulse"></span>
+              </div>
+              <h2 className="text-2xl font-bold mt-4 text-gray-800">{user.name}</h2>
+              <p className="text-gray-500 text-sm">{user.email}</p>
+              <span className="mt-2 inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full font-semibold shadow-sm animate-pulse">
+                🥇 Premium Member
+              </span>
+            </div>
+
+            {/* Extra Info */}
+            <div className="grid grid-cols-1 gap-4 text-sm text-gray-700">
+              <div className="flex items-center gap-2">
+                <FaMapMarkerAlt className="text-blue-500" />
+                <span>Address: 123, Eye Street, Vision City</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />
+                <span>Joined: January 15, 2024</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaStar className="text-yellow-400" />
+                <span>Loyalty Points: <strong>1200 XP</strong></span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-1 gap-4">
+              <button
+                onClick={() => navigate("/order")}
+                className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-300"
+              >
+                <FaBox /> My Orders
+              </button>
+              <button
+                onClick={() => navigate("/wishlist")}
+                className="flex items-center justify-center gap-2 bg-pink-500 text-white px-4 py-2 rounded-lg shadow hover:bg-pink-600 transition-all duration-300"
+              >
+                <FaHeart /> My Wishlist
+              </button>
+              <button
+                onClick={() => navigate("/resetPassword")}
+                className="flex items-center justify-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-900 transition-all duration-300"
+              >
+                🔒 Change Password
+              </button>
+            </div>
+
+            {/* Static Panel */}
+            <div className="mt-6 border-t pt-4 text-xs text-center text-gray-400">
+              <p>Last updated: April 25, 2025</p>
+              <p className="mt-1">
+                Want to connect?{" "}
+                <Link to="/#contactus" className="text-blue-500 hover:underline">
+                  Contact Us
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
