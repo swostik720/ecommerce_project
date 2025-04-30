@@ -43,10 +43,15 @@ const AdminHome = () => {
             orderRes.json(),
           ]);
 
+          // ➡️ Fix for unique brands:
+          const uniqueBrands = Array.from(
+            new Map(brands.map((brand) => [brand.name, brand])).values()
+          );
+
           setStats({
             products: products.length,
             categories: categories.length,
-            brands: brands.length,
+            brands: uniqueBrands.length,   // ✅ only unique brands
             orders: orders.length,
           });
         }
@@ -65,6 +70,7 @@ const AdminHome = () => {
       </div>
     );
   }
+
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">

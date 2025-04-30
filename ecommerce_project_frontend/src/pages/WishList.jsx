@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify"; // Import toast
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
@@ -22,6 +23,11 @@ const Wishlist = () => {
         });
 
         setWishlist(wishlist.filter((item) => item.id !== id));
+        toast.success("Product removed from wishlist!", {
+            position: "top-center",
+            autoClose: 2000,
+            theme: "colored",
+        });
     };
 
     const handleAddToCart = async (item) => {
@@ -30,34 +36,50 @@ const Wishlist = () => {
             navigate("/login");
             return;
         }
-
-        try {
-            const res = await fetch("http://127.0.0.1:8000/api/cart/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${loginToken}`,
-                },
-                body: JSON.stringify({
-                    product_id: item.product.id,
-                    quantity: 1,
-                }),
+    
+        // Add to cart first
+        fetch("http://127.0.0.1:8000/api/cart/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${loginToken}`,
+            },
+            body: JSON.stringify({
+                product_id: item.product.id,
+                quantity: 1,
+            }),
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json(); // Return JSON if successful
+                } else {
+                    throw new Error("Failed to add product to cart.");
+                }
+            })
+            .then((data) => {
+                // Show success toast first
+                toast.success("Product added to cart successfully!", {
+                    position: "top-center", // Top toast
+                    autoClose: 2000,
+                    theme: "colored",
+                });
+    
+                // Now, remove from wishlist and navigate to cart after the toast has shown
+                setTimeout(() => {
+                    removeFromWishlist(item.id); // Remove item from wishlist
+                    navigate("/cart"); // Navigate to the cart page
+                }, 2000); // 2000ms (2 seconds) to wait until the toast auto-closes
+            })
+            .catch((err) => {
+                console.error("Error adding to cart:", err);
+                toast.error(err.message || "Something went wrong. Please try again.", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    theme: "colored",
+                });
             });
-
-            const data = await res.json();
-
-            if (res.ok) {
-                alert("Product added to cart successfully!");
-                removeFromWishlist(item.id);
-                navigate("/cart");
-            } else {
-                alert(data.message || "Failed to add product to cart.");
-            }
-        } catch (err) {
-            console.error("Error adding to cart:", err);
-            alert("Something went wrong. Please try again.");
-        }
     };
+    
 
     return (
         <div>

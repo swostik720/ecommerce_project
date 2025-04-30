@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import icons for expanding/collapsing
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -35,20 +36,26 @@ const FAQ = () => {
   };
 
   return (
-    <div className="w-full bg-gray-100 py-16 px-6 md:px-20 text-blue-900">
-        <h2 className="text-3xl md:text-4xl font-semibold text-center mb-8 border-b-2 pb-4">Frequently Asked Questions</h2>
-      <div className="space-y-4">
+    <div className="w-full bg-gradient-to-b from-indigo-50 to-blue-100 py-20 px-6 md:px-16 text-blue-900">
+      <h2 className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500 border-b-2">
+        Frequently Asked Questions
+      </h2>
+      <div className="space-y-6">
         {faqs.map((faq, index) => (
-          <div key={index} className="border-b border-gray-300">
+          <div key={index} className="bg-white rounded-lg shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
             <button
-              className="w-full text-left py-3 px-4 flex justify-between items-center focus:outline-none text-lg font-medium"
+              className="w-full text-left py-6 px-6 flex justify-between items-center focus:outline-none text-xl font-semibold hover:bg-blue-50 transition duration-300"
               onClick={() => toggleFAQ(index)}
             >
-              {faq.question}
-              <span className="text-blue-500">{openIndex === index ? '−' : '+'}</span>
+              <span className="text-gray-800">{faq.question}</span>
+              <span className="text-blue-600 text-2xl">
+                {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+              </span>
             </button>
             {openIndex === index && (
-              <p className="p-4 text-gray-700 bg-white rounded-md">{faq.answer}</p>
+              <div className="p-6 text-lg text-gray-700 bg-gray-50 rounded-b-lg transition-all duration-300">
+                {faq.answer}
+              </div>
             )}
           </div>
         ))}

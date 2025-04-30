@@ -1,38 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../config";
 
 const Receipt = () => {
     const [paymentDetails, setPaymentDetails] = useState(null);
-    const [userName, setUserName] = useState(""); // Store user name
+    const [userName, setUserName] = useState(""); // Name from order
+    const [username, setUsername] = useState(""); // Name from logged-in user
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch user details
-        const fetchUser = async () => {
-            try {
-                const response = await fetch("http://127.0.0.1:8000/api/user", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
-                        Accept: "application/json",
-                    },
-                });
-
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUserName(userData.name);
-                } else {
-                    console.error("Failed to fetch user data");
-                }
-            } catch (error) {
-                console.error("Error fetching user:", error);
-            }
-        };
-
-        fetchUser();
-
-        // Parse payment details
         const urlParams = new URLSearchParams(location.search);
         const encodedData = urlParams.get("data");
 
@@ -46,7 +23,8 @@ const Receipt = () => {
 
                 setPaymentDetails(parsedData);
 
-                createOrder(parsedData);
+                createOrder(parsedData); // Create order and fetch order user
+                fetchUser(); // Fetch logged-in user
             } catch (error) {
                 console.error("Error parsing payment details:", error);
                 alert("Error loading receipt.");
@@ -86,14 +64,29 @@ const Receipt = () => {
             return;
         }
 
+        const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        if (cart.length === 0) {
+            console.error("No cart items found");
+            return;
+        }
+
         try {
             const response = await fetch(`${config.API_BASE}/orders`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${loginToken}`,
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    transaction_code: data.transaction_code,
+                    total_amount: data.total_amount,
+                    products: cart.map(item => ({
+                        id: item.product.id,
+                        quantity: item.quantity,
+                        price: item.product.price,
+                    })),
+                }),
             });
 
             if (!response.ok) {
@@ -101,69 +94,119 @@ const Receipt = () => {
             }
 
             const result = await response.json();
-            console.log("Order created successfully:", result);
+            console.log("Order created:", result);
+
+            const orderId = result.order.id;
+            fetchOrderUser(orderId);
+
+            localStorage.removeItem("cartItems");
+
         } catch (error) {
             console.error("Error creating order:", error);
         }
     };
-    
+
+    const fetchOrderUser = async (orderId) => {
+        const loginToken = localStorage.getItem("loginToken");
+        try {
+            const response = await fetch(`${config.API_BASE}/orders/${orderId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${loginToken}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const orderData = await response.json();
+                console.log("Fetched Order:", orderData);
+                setUserName(orderData.user?.name || "N/A");
+            } else {
+                console.error("Failed to fetch order details");
+            }
+        } catch (error) {
+            console.error("Error fetching order:", error);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            const response = await fetch(`${config.API_BASE}/user`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
+                    Accept: "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+                console.log("Fetched logged-in user:", userData);
+                setUsername(userData.name);
+            } else {
+                console.error("Failed to fetch user data");
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+        }
+    };
+
     return (
         <div className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
             <div className="max-w-lg w-full bg-white shadow-lg rounded-lg p-8 border border-gray-300">
-            <button
-                onClick={() => navigate("/shop")}
-                className="print:hidden bg-gray-500 text-white px-4 py-2 rounded-lg mb-4 shadow-md"
-            >
-                ← Continue Shopping
-            </button>
-                    {/* Date & Transaction Code Section */}
-                    <div className="text-right">
-                        <p className="text-gray-700 text-sm"><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
-                        <p className="text-gray-700 text-sm"><strong>Transaction Code:</strong> {paymentDetails?.transaction_code}</p>
-                    </div>
-                    {/* Logo & Title Section */}
-                    <div className="flex items-center gap-3">
-                        <img src="/icon.png" alt="SBS Optics" className="w-25 h-25" />
-                        <div>
-                            <h1 className="text-xl font-bold text-blue-700">SBS Optics</h1>
-                            <p className="text-gray-600 text-sm">Official Payment Receipt</p>
-                        </div>
-                    </div>
+                <button
+                    onClick={() => navigate("/shop")}
+                    className="print:hidden bg-gray-500 text-white px-4 py-2 rounded-lg mb-4 shadow-md"
+                >
+                    ← Continue Shopping
+                </button>
 
-                {/* Official Payment Partner */}
-                <div className="flex justify-between items-center border-b pb-4 mb-4">
-                    <p className="text-gray-700 font-medium">Official Payment Partner:</p>
-                    <img src="/esewa_og.webp" alt="Esewa" className="w-60 h-30" />
+                {/* Date & Transaction Code */}
+                <div className="text-right mb-4">
+                    <p className="text-gray-700 text-sm"><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
+                    <p className="text-gray-700 text-sm"><strong>Transaction Code:</strong> {paymentDetails?.transaction_code}</p>
                 </div>
 
-                {/* Payment Code */}
+                {/* Logo & Title */}
+                <div className="flex items-center gap-3 mb-6">
+                    <img src="/icon.png" alt="SBS Optics" className="w-16 h-16" />
+                    <div>
+                        <h1 className="text-2xl font-bold text-blue-700">SBS Optics</h1>
+                        <p className="text-gray-600 text-sm">Official Payment Receipt</p>
+                    </div>
+                </div>
+
+                {/* Payment Partner */}
+                <div className="flex justify-between items-center border-b pb-4 mb-4">
+                    <p className="text-gray-700 font-medium">Official Payment Partner:</p>
+                    <img src="/esewa_og.webp" alt="Esewa" className="w-32 h-12 object-contain" />
+                </div>
+
+                {/* Transaction UUID */}
                 <div className="mb-4">
                     <p className="text-gray-700"><strong>Transaction UUID:</strong> {paymentDetails?.transaction_uuid}</p>
                 </div>
 
-                {/* User Details */}
+                {/* Customer Name */}
                 <div className="border-b pb-4 mb-4">
-                    <p className="text-gray-700"><strong>Customer Name:</strong> {userName || "N/A"}</p>
+                    <p className="text-gray-700">
+                        <strong>Customer Name:</strong> {userName || username || "N/A"}
+                    </p>
                 </div>
 
-                {/* Payment Information (Most Important) */}
+                {/* Payment Information */}
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-300 mb-4">
-                    <p className="text-lg font-semibold text-blue-700">Payment Information</p>
-                    <p className="text-gray-700"><strong>Status:</strong>
+                    <p className="text-lg font-semibold text-blue-700 mb-2">Payment Information</p>
+                    <p className="text-gray-700">
+                        <strong>Status:</strong>
                         <span className={`ml-2 text-${paymentDetails?.status === 'COMPLETE' ? 'green' : 'red'}-600 font-semibold`}>
                             {paymentDetails?.status}
                         </span>
                     </p>
-                    <p className="text-gray-700"><strong>Total Amount:</strong> Rs. {paymentDetails?.total_amount.toFixed(2)}</p>
+                    <p><strong>Total Amount:</strong> Rs. {paymentDetails?.total_amount ? paymentDetails.total_amount.toFixed(2) : "0.00"}</p>
                     <p className="text-gray-700"><strong>Amount in Words:</strong> {numberToWords(paymentDetails?.total_amount)} Rupees only</p>
                 </div>
 
-                {/* Product Code */}
-                <div className="border-b pb-4 mb-4">
-                    <p className="text-gray-700"><strong>Product Code:</strong> {paymentDetails?.product_code}</p>
-                </div>
-
-                {/* Print Button */}
+                {/* Buttons */}
                 <div className="mt-6 flex justify-center gap-4">
                     <button
                         onClick={handlePrint}
@@ -173,7 +216,7 @@ const Receipt = () => {
                     </button>
                     <button
                         onClick={() => navigate("/order")}
-                        className="print:hidden bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                        className="print:hidden bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600 transition duration-300"
                     >
                         Track your Order
                     </button>
@@ -185,15 +228,16 @@ const Receipt = () => {
                     <p>SBS Optics | optics.sbs@gmail.com</p>
                 </div>
             </div>
-            {/* CSS for Print Styling */}
+
+            {/* Print CSS */}
             <style>
                 {`
-                @media print {
-                    .print\\:hidden {
-                        display: none !important;
-                    }
-                }
-                `}
+          @media print {
+            .print\\:hidden {
+              display: none !important;
+            }
+          }
+        `}
             </style>
         </div>
     );

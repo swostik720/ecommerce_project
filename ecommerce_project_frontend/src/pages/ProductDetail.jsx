@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify"; // Import toast
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -94,14 +95,29 @@ const ProductDetail = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Product added to cart successfully!");
-        navigate("/cart"); // Redirect to cart page
+        toast.success(data.message || "Product added to cart successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+
+        setTimeout(() => {
+          navigate("/cart"); // Redirect to cart page
+        }, 2500);
       } else {
-        alert(data.message || "Failed to add product to cart.");
+        toast.error(data.message || "Failed to add product to cart.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
       }
     } catch (err) {
       console.error("Error adding to cart:", err);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+      });
     }
   };
 
@@ -125,14 +141,29 @@ const ProductDetail = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Product added to wishlist successfully!");
-        navigate("/wishlist");
+        toast.success(data.message || "Product added to wishlist successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+
+        setTimeout(() => {
+          navigate("/wishlist");
+        }, 2500);
       } else {
-        alert(data.message || "Failed to add product to wishlist.");
+        toast.error(data.message || "Failed to add product to wishlist.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
       }
     } catch (err) {
       console.error("Error adding to wishlist:", err);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+      });
     }
   };
 

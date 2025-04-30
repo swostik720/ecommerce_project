@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import icons
+import { ToastContainer, toast } from 'react-toastify'; // Importing toast
+import 'react-toastify/dist/ReactToastify.css'; // Import styles for toast
 
 const Shop = () => {
     const [categories, setCategories] = useState([]);
@@ -34,7 +36,10 @@ const Shop = () => {
         fetch("http://127.0.0.1:8000/api/products")
             .then((res) => res.json())
             .then((data) => setProducts(data))
-            .catch((error) => console.error("Error fetching products:", error));
+            .catch((error) => {
+                console.error("Error fetching products:", error);
+                toast.error("Error fetching products!"); // Show error toast
+            });
     };
 
     /** 
@@ -223,25 +228,24 @@ const Shop = () => {
                             <button
                                 onClick={handlePrevPage}
                                 disabled={currentPage === 1}
-                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-md flex items-center disabled:bg-gray-100 disabled:text-gray-400"
+                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50"
                             >
-                                <FaArrowLeft className="mr-2" /> Previous
+                                <FaArrowLeft />
                             </button>
-                            <span className="px-4 py-2 bg-gray-200 text-gray-700">
-                                Page {currentPage} of {totalPages}
-                            </span>
+                            <span className="text-lg font-semibold">{`Page ${currentPage} of ${totalPages}`}</span>
                             <button
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-r-md flex items-center disabled:bg-gray-100 disabled:text-gray-400"
+                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50"
                             >
-                                Next <FaArrowRight className="ml-2" />
+                                <FaArrowRight />
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             <Footer />
+            <ToastContainer /> {/* Toaster container */}
         </div>
     );
 };

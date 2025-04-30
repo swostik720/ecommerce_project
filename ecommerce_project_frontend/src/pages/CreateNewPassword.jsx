@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateNewPasswordPage = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state for the button
+  const [loading, setLoading] = useState(false);
 
   const urlParams = new URLSearchParams(search);
   const email = urlParams.get("email");
-  const token = localStorage.getItem("passwordResetToken"); // Retrieve the token from localStorage
+  const token = localStorage.getItem("passwordResetToken");
 
   useEffect(() => {
     if (!token || !email) {
-      setError("Invalid or expired link.");
-      return;
+      toast.error("Invalid or expired link.", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "colored",
+      });
     }
   }, [email, token]);
 
@@ -25,11 +28,15 @@ const CreateNewPasswordPage = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      toast.error("Passwords do not match.", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "colored",
+      });
       return;
     }
 
-    setLoading(true); // Set loading to true when the request starts
+    setLoading(true);
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/password/reset", {
@@ -43,66 +50,107 @@ const CreateNewPasswordPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message);
-        setTimeout(() => navigate("/login"), 3000); // Redirect to login after successful reset
+        toast.success(data.message || "Password reset successful!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+
+        setTimeout(() => navigate("/login"), 2500);
       } else {
-        setError(data.message || "Password reset failed.");
+        toast.error(data.message || "Password reset failed.", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "colored",
+        });
       }
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "colored",
+      });
     } finally {
-      setLoading(false); // Set loading to false when the request finishes
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-tr from-green-100 to-blue-200">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
         {/* Back Button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="bg-gray-500 text-white px-4 py-2 rounded-lg mb-4"
-      >
-        ← Back
-      </button> 
-        <h2 className="text-2xl font-bold mb-6 text-center">Create New Password</h2>
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg mb-4"
+        >
+          ← Back
+        </button>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
+        <h2 className="text-3xl font-extrabold text-center text-blue-600 mb-8">
+          Create New Password 🔐
+        </h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">New Password</label>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">New Password</label>
             <input
               type="password"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder="Enter new password"
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700">Confirm Password</label>
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Confirm Password</label>
             <input
               type="password"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              placeholder="Confirm new password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-            disabled={loading} // Disable the button while loading
+            disabled={loading}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-300 flex items-center justify-center"
           >
-            {loading ? "Resetting..." : "Reset Password"} {/* Button text based on loading state */}
+            {loading ? (
+              <div className="flex items-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
+                </svg>
+                Resetting...
+              </div>
+            ) : (
+              "Reset Password"
+            )}
           </button>
         </form>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

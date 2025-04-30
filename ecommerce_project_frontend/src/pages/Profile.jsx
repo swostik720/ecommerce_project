@@ -118,9 +118,9 @@ const Profile = () => {
               <p>Last updated: April 25, 2025</p>
               <p className="mt-1">
                 Want to connect?{" "}
-                <Link to="/#contactus" className="text-blue-500 hover:underline">
+                <a href="/#contactus" className="cursor-pointer hover:underline text-blue-500">
                   Contact Us
-                </Link>
+                </a>
               </p>
             </div>
           </div>

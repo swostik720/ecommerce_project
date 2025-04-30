@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,7 +12,7 @@ const Navbar = () => {
     const isAdmin = localStorage.getItem("isAdmin") === "1";
 
     const isAuthenticated = !!localStorage.getItem("loginToken");
-    // ✅ Fetch cart count dynamically
+
     useEffect(() => {
         if (isAuthenticated) {
             fetchCartCount();
@@ -48,13 +50,31 @@ const Navbar = () => {
                 },
             });
             if (response.ok) {
-                localStorage.removeItem("loginToken"); // Remove token
-                navigate("/login"); // Redirect to login
+                localStorage.removeItem("loginToken");
+                localStorage.removeItem("isAdmin");
+                toast.success("Logged out successfully!", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "colored",
+                });
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2500);
             } else {
-                console.error("Logout failed");
+                toast.error("Logout failed!", {
+                    position: "top-center",
+                    theme: "colored",
+                });
             }
         } catch (error) {
-            console.error("Error logging out:", error);
+            toast.error("Error logging out!", {
+                position: "top-center",
+                theme: "colored",
+            });
         }
     };
 
@@ -97,7 +117,7 @@ const Navbar = () => {
             location.pathname.startsWith("/cart") ||
             location.pathname.startsWith("/wishlist") ||
             location.pathname.startsWith("/profile") ||
-            location.pathname.startsWith("/order") 
+            location.pathname.startsWith("/order")
         ) {
             return (
                 <button onClick={() => navigate("/shop")} className="text-white hover:underline">
@@ -211,21 +231,26 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-blue-500 p-4 flex justify-between items-center shadow-md">
-            {/* Left Side */}
-            <h1 className="flex items-center gap-3 text-white font-bold">
-                <button onClick={() => navigate("/")}>
-                    <img src="/icon.png" alt="SBS Optics" className="w-10 h-10 drop-shadow-[0_0_4px_white]" />
-                </button>
-                <button onClick={() => navigate("/")}>SBS Optics</button>
-            </h1>
+        <>
+            <nav className="fixed top-0 w-full z-50 bg-blue-500 p-4 flex justify-between items-center shadow-md">
+                {/* Left Side */}
+                <h1 className="flex items-center gap-3 text-white font-bold">
+                    <button onClick={() => navigate("/")}>
+                        <img src="/icon.png" alt="SBS Optics" className="w-10 h-10 drop-shadow-[0_0_4px_white]" />
+                    </button>
+                    <button onClick={() => navigate("/")}>SBS Optics</button>
+                </h1>
 
-            {/* Middle Content */}
-            <div>{renderMiddleContent()}</div>
+                {/* Middle Content */}
+                <div>{renderMiddleContent()}</div>
 
-            {/* Right Content */}
-            {renderRightContent()}
-        </nav>
+                {/* Right Content */}
+                {renderRightContent()}
+            </nav>
+
+            {/* Toast Container */}
+            <ToastContainer />
+        </>
     );
 };
 

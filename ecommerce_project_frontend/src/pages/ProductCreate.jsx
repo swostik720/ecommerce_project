@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductCreate = () => {
   const [name, setName] = useState("");
@@ -15,13 +17,11 @@ const ProductCreate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch Brands
     fetch("http://127.0.0.1:8000/api/brands")
       .then((res) => res.json())
       .then((data) => setBrands(data))
       .catch((err) => console.error("Error fetching brands:", err));
 
-    // Fetch Categories
     fetch("http://127.0.0.1:8000/api/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
@@ -53,9 +53,19 @@ const ProductCreate = () => {
         },
         body: formData,
       });
+      toast.success("Product added to cart successfully!", {
+        position: "top-center", // Positioning the toast at the top center
+        autoClose: 2000, // Auto close after 2 seconds
+        theme: "colored", // Colored theme for the toast
+      });
       navigate("/product-list");
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error adding product:", error);
+      toast.error("Failed to add product to cart. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+      });
     }
   };
 
@@ -94,7 +104,6 @@ const ProductCreate = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          {/* Select Brand with Category */}
           <select
             className="border p-2 w-full mb-2"
             value={brandId}

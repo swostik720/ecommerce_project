@@ -56,7 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/products/{product}', [ProductController::class, 'show']);
 
         // Admin: View All Orders
-        Route::get('/orders', [OrderController::class, 'index']);
+        Route::put('/orders/{orderId}/status', [OrderController::class, 'updateStatus']);
     });
 
     // Routes for Cart
@@ -75,7 +75,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // User: View Their Own Orders
     Route::get('/user/orders', [OrderController::class, 'userOrders']);
-    
+    Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
-
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::get('/show-receipt', [OrderController::class, 'showReceipt']);
 });

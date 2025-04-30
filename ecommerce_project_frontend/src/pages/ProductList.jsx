@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +12,6 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch Products
     fetch("http://127.0.0.1:8000/api/products", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
@@ -19,19 +20,38 @@ const ProductList = () => {
     })
       .then((res) => res.json())
       .then((data) => setProducts(data))
-      .catch((err) => console.error("Error fetching products:", err));
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+        toast.error("Failed to fetch products. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      });
 
-    // Fetch Brands
     fetch("http://127.0.0.1:8000/api/brands")
       .then((res) => res.json())
       .then((data) => setBrands(data))
-      .catch((err) => console.error("Error fetching brands:", err));
+      .catch((err) => {
+        console.error("Error fetching brands:", err);
+        toast.error("Failed to fetch brands. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      });
 
-    // Fetch Categories
     fetch("http://127.0.0.1:8000/api/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
-      .catch((err) => console.error("Error fetching categories:", err));
+      .catch((err) => {
+        console.error("Error fetching categories:", err);
+        toast.error("Failed to fetch categories. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      });
   }, []);
 
   const handleDelete = async (id) => {
@@ -44,8 +64,18 @@ const ProductList = () => {
           },
         });
         setProducts(products.filter((product) => product.id !== id));
+        toast.success("Product deleted successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
       } catch (error) {
         console.error("Error deleting product:", error);
+        toast.error("Failed to delete product. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
       }
     }
   };
@@ -54,7 +84,6 @@ const ProductList = () => {
     <div>
       <Navbar />
       <div className="p-6 pt-20">
-        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="bg-gray-500 text-white px-4 py-2 rounded-lg mb-4"
@@ -67,9 +96,7 @@ const ProductList = () => {
         </Link>
         <ul className="mt-4">
           {products.map((product) => {
-            // Find the brand for this product
             const productBrand = brands.find((brand) => brand.id === product?.brand_id);
-            // Find the category using the brand's category_id
             const productCategory = productBrand ? categories.find((category) => category.id === productBrand.category_id) : null;
 
             return (

@@ -9,17 +9,17 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'transaction_code',
-        'total_amount',
-        'status',
-        //'products'
-    ];
+    protected $fillable = ['user_id', 'status'];
 
-    // protected $casts = [
-    //     'products' => 'array',
-    // ];
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 
     public function user()
     {

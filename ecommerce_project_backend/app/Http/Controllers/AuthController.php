@@ -126,40 +126,86 @@ class AuthController extends Controller
                     <head>
                         <style>
                             body {
-                                font-family: Arial, sans-serif;
-                                background-color: #f4f4f4;
-                                padding: 20px;
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                background-color: #e7f3ff;
+                                margin: 0;
+                                padding: 0;
+                                color: #333333;
                             }
-                            .container {
+                            .outer-container {
                                 max-width: 600px;
+                                margin: 30px auto;
+                                padding: 30px;
+                                background: linear-gradient(to bottom, #ffffff 0%, #007bff 100%);
+                                border-radius: 12px;
+                                text-align: center;
+                            }
+                            h1 {
+                                color: #808080;
+                                font-size: 36px;
+                                font-weight: bold;
+                                margin-bottom: 20px;
+                            }
+                            .inner-container {
                                 background: #ffffff;
-                                padding: 20px;
-                                border-radius: 8px;
-                                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                                padding: 30px;
+                                border-radius: 12px;
+                                box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+                                text-align: center;
+                            }
+                            h2 {
+                                color: #007bff;
+                                font-size: 28px;
+                                font-weight: bold;
+                                margin-bottom: 20px;
+                            }
+                            p {
+                                font-size: 16px;
+                                line-height: 1.6;
+                                color: #555555;
                             }
                             .button {
                                 display: inline-block;
-                                padding: 10px 20px;
+                                padding: 18px 40px;
                                 color: #ffffff;
                                 background-color: #007bff;
                                 text-decoration: none;
-                                border-radius: 5px;
+                                border-radius: 50px;
+                                font-size: 20px;
                                 font-weight: bold;
+                                transition: background-color 0.3s ease;
+                                margin-top: 20px;
+                                text-transform: uppercase;
+                            }
+                            .button:hover {
+                                background-color: #0056b3;
                             }
                             .footer {
-                                margin-top: 20px;
-                                font-size: 12px;
-                                color: #888888;
+                                margin-top: 30px;
+                                font-size: 14px;
+                                color: #777777;
+                                text-align: center;
+                            }
+                            .footer a {
+                                color: #007bff;
+                                text-decoration: none;
+                            }
+                            .footer a:hover {
+                                text-decoration: underline;
                             }
                         </style>
                     </head>
                     <body>
-                        <div class='container'>
-                            <h2>Password Reset Request</h2>
-                            <p>We received a request to reset your password. Click the button below to reset it:</p>
-                            <p><a href='{$resetUrl}' class='button'>Reset Password</a></p>
-                            <p>If you did not request this, you can ignore this email.</p>
-                            <p class='footer'>This link will expire in 60 minutes.</p>
+                        <div class='outer-container'>
+                            <h1>SBS Optics</h1>
+                            <div class='inner-container'>
+                                <h2>Password Reset Request</h2>
+                                <p>We received a request to reset your password. To proceed, simply click the button below:</p>
+                                <p><a href='{$resetUrl}' class='button'>Reset Your Password</a></p>
+                                <p>If you did not request a password reset, you can ignore this email.</p>
+                                <p class='footer'>This link will expire in 60 minutes.</p>
+                                <p class='footer'>Need help? <a href='mailto:optics.sbs@gmail.com'>Contact support</a></p>
+                            </div>
                         </div>
                     </body>
                 </html>

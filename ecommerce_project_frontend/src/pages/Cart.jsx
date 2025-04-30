@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify"; // Import toast
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
@@ -55,10 +56,19 @@ const Cart = () => {
         const updatedCart = cart.filter((item) => item.product.id !== id);
         setCart(updatedCart);
         calculateTotal(updatedCart);
+
+        // Show toast message when item is removed from the cart
+        toast.success("Product removed from the cart!", {
+            position: "top-center",
+            autoClose: 2000,
+            theme: "colored",
+        });
     };
 
     const handleCheckout = async () => {
         try {
+            localStorage.setItem("cartItems", JSON.stringify(cart));
+
             const response = await fetch("http://127.0.0.1:8000/api/esewa/checkout", {
                 method: "POST",
                 headers: {
@@ -69,6 +79,7 @@ const Cart = () => {
                     products: cart.map((item) => ({
                         slug: item.product.slug,
                         quantity: item.quantity, // Include quantity
+                        price: item.product.price,
                     })),
                 }),
             });
@@ -86,7 +97,7 @@ const Cart = () => {
             alert("Error processing payment.");
         }
     };
-    
+
     return (
         <div>
         <Navbar />
@@ -185,7 +196,7 @@ const Cart = () => {
             </div>
             <Footer />
         </div>
-    );  
+    );
 };
 
 export default Cart;

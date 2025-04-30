@@ -4,7 +4,7 @@ const Contactus = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');  // This is the response state to show success or error message
+  const [response, setResponse] = useState(''); // Response state for success or error message
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,26 +44,28 @@ const Contactus = () => {
   };
 
   return (
-    <section id="contact" className="bg-white py-16 px-4 md:px-16  text-blue-900">
+    <section id="contact" className="bg-white py-16 px-6 md:px-16 text-blue-900">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-semibold text-center mb-8 border-b-2 pb-4">Contact Us</h2>
+        <h2 className="text-4xl font-semibold text-center text-blue-600 mb-8">
+          Contact Us
+        </h2>
 
         {/* Display Response Message */}
         {response && (
-          <div className="text-center mb-4 text-lg font-medium text-green-600">
+          <div className="text-center mb-6 text-lg font-medium text-green-600">
             {response}
           </div>
         )}
 
-        <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+        <form className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg border-t-4 border-blue-500" onSubmit={handleSubmit}>
           {/* Name Field */}
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block font-semibold mb-2" htmlFor="name">Name</label>
             <input
               type="text"
               id="name"
               name="name"
-              className="w-full p-2 border rounded"
+              className="w-full p-4 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -72,13 +74,13 @@ const Contactus = () => {
           </div>
 
           {/* Email Field */}
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block font-semibold mb-2" htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
               name="email"
-              className="w-full p-2 border rounded"
+              className="w-full p-4 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -87,13 +89,13 @@ const Contactus = () => {
           </div>
 
           {/* Message Field */}
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block font-semibold mb-2" htmlFor="message">Message</label>
             <textarea
               id="message"
               name="message"
-              className="w-full p-2 border rounded"
-              rows="4"
+              className="w-full p-4 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              rows="6"
               placeholder="Your message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -104,14 +106,14 @@ const Contactus = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 transition duration-300"
+            className="w-full py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-500 transition duration-300"
           >
-            Submit
+            Send Message
           </button>
         </form>
       </div>
     </section>
   );
-}
+};
 
 export default Contactus;
