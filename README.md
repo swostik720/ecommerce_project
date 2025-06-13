@@ -112,6 +112,11 @@ You can use the following test credentials for **eSewa payment integration**:
 
 ---
 
+👨‍💻 Developers
+🎨 Frontend: Sudeep Raj Karki
+
+🛠️ Backend: Swostik Paneru
+
 ## 🤝 **Contributing**  
 Contributions are welcome! 💡  
 Feel free to **fork** the repo, **submit issues**, or **open a pull request**.  
