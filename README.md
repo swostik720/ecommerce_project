@@ -114,7 +114,7 @@ You can use the following test credentials for **eSewa payment integration**:
 
 ##👨‍💻 **Developers**
 
-Project Manager:Bipin Aryal
+Project Manager: Bipin Aryal
 
 Frontend: Sudeep Raj Karki
 
